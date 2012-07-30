@@ -31,3 +31,10 @@ In your `User` model:
       devise ..., :session_limit
 
     end
+
+Add some translation key for the error message:
+
+    en:
+      devise:
+        failure:
+          session_limited: "You are already signed in from another place"

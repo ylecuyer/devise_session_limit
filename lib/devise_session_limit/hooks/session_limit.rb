@@ -1,3 +1,5 @@
+require 'devise_session_limit/path_checker' if not defined? Devise::PathChecker
+
 # After each sign in, update unique_session_id.
 # This is only triggered when the user is explicitly set (with set_user)
 # and on authentication. Retrieving the user from session (:fetch) does
