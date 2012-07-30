@@ -20,3 +20,14 @@ Or install it yourself as:
 
 ## Usage
 
+In your `User` model:
+
+    class User
+
+      # Additional field
+      field :unique_session_id, :type => String
+
+      # Additional devise module
+      devise ..., :session_limit
+
+    end
