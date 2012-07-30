@@ -5,7 +5,7 @@ require 'devise_session_limit/path_checker' if not defined? Devise::PathChecker
 # and on authentication. Retrieving the user from session (:fetch) does
 # not trigger it.
 Warden::Manager.after_set_user :except => :fetch do |record, warden, options|
-  if record.respond_to?(:update_unique_session_id!) && warden.authenticated?(options[:scope])
+  if record.respond_to?(:update_unique_session_id!) and warden.authenticated?(options[:scope])
     unique_session_id = Devise.friendly_token
     warden.session(options[:scope])['unique_session_id'] = unique_session_id
     record.update_unique_session_id!(unique_session_id)
@@ -18,7 +18,7 @@ end
 Warden::Manager.after_set_user :only => :fetch do |record, warden, options|
   scope = options[:scope]
 
-  if warden.authenticated?(scope)
+  if record.respond_to?(:unique_session_id) and warden.authenticated?(scope)
     unless record.unique_session_id == warden.session(scope)['unique_session_id']
       path_checker = Devise::PathChecker.new(warden.env, scope)
       unless path_checker.signing_out?
