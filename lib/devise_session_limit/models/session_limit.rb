@@ -10,10 +10,15 @@ module Devise
     module SessionLimit
       extend ActiveSupport::Concern
 
+      # Called at each sign in
       def update_unique_session_id!(unique_session_id)
         self.unique_session_id = unique_session_id
-
         save(:validate => false)
+      end
+
+      # Called at each request, you can override to implement your own behaviour
+      def check_unique_session_id session_id
+        self.unique_session_id == session_id
       end
 
     end

@@ -38,3 +38,18 @@ Add some translation key for the error message:
       devise:
         failure:
           session_limited: "You are already signed in from another place"
+
+## Customize
+
+You can customize the behaviour from the `User` model by overriding or chaining this two methods:
+
+      # Called at each sign in
+      def update_unique_session_id!(unique_session_id)
+        self.unique_session_id = unique_session_id
+        save(:validate => false)
+      end
+
+      # Called at each request, you can override to implement your own behaviour
+      def check_unique_session_id session_id
+        self.unique_session_id == session_id
+      end

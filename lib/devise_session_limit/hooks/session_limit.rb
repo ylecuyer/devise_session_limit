@@ -18,8 +18,8 @@ end
 Warden::Manager.after_set_user :only => :fetch do |record, warden, options|
   scope = options[:scope]
 
-  if record.respond_to?(:unique_session_id) and warden.authenticated?(scope)
-    unless record.unique_session_id == warden.session(scope)['unique_session_id']
+  if record.respond_to?(:check_unique_session_id) and warden.authenticated?(scope)
+    unless record.check_unique_session_id(warden.session(scope)['unique_session_id'])
       path_checker = Devise::PathChecker.new(warden.env, scope)
       unless path_checker.signing_out?
         warden.logout(scope)
